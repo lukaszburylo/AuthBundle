@@ -1,0 +1,7 @@
+parameters:
+#    n_burylo_auth.example.class: nBurylo\AuthBundle\Example
+
+services:
+#    n_burylo_auth.example:
+#        class: %n_burylo_auth.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]

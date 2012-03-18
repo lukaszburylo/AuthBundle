@@ -1,0 +1,3 @@
+nBuryloAuthBundle_auth:
+    resource: "@nBuryloAuthBundle/Controller/AuthController.php"
+    type:     annotation
