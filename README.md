@@ -31,7 +31,6 @@ Add the following entries to your autoloader:
 
 $loader->registerNamespaces(array(
     // ...
-    
     'nBurylo'   => __DIR__.'/../vendor/bundles',
 ));
 ```
@@ -48,7 +47,6 @@ public function registerBundles()
 {
     $bundles = array(
         // ...
-
         new nBurylo\AuthBundle\nBuryloAuthBundle(),
     );
 }
