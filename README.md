@@ -18,7 +18,7 @@ Add the following lines to your ``deps`` file
 Next, update your vendors by running:
 
 ``` bash
-$ ./bin/vendors install
+$ ./bin/vendors install --reinstall
 ```
 
 ### Step 2: Configure the autoloader
