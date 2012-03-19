@@ -1,0 +1,15 @@
+{% extends "nBuryloAuthBundle::layout.html.twig" %}
+
+{% block content %}
+	{% for user in users %}
+	<a href="{{ path("_auth_user_edit" , { 'id' : user.id}) }}">
+		{{ user.username }}
+	</a> [{% for role in user.roles%} {{ role.role }} {% endfor %}] <br />
+	{% endfor %}
+
+	<br/><br />
+	{% for group in groups %}
+		[{{ group.role }}] - {{ group.name }}<br />
+	{% endfor %}	
+{% endblock %}
+
