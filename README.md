@@ -53,3 +53,44 @@ public function registerBundles()
     );
 }
 ```
+
+### Step 4: Configure routing
+Add a floowing entries to your routing file ``app/config/routing.yml``
+
+```
+nBuryloAuthBundle:
+    resource: "@nBuryloAuthBundle/Resources/config/routing.yml"
+
+```
+
+### Step 5: Configure security
+Edit file ``app/config/security.yml
+```
+security:
+    encoders:
+        nBurylo\AuthBundle\Entity\User:
+            algorithm: sha1
+            encode_as_base64: false
+            iterations: 1
+
+
+    providers:
+        chain_provider:
+            providers: user_db
+        user_db:
+            entity: { class: nBurylo\AuthBundle\Entity\User, property: username }                      
+                
+
+    firewalls:
+        login:
+            pattern:  ^/auth/login$
+            security: false
+        secured_area:
+            pattern:    ^/
+            form_login:
+                check_path: /auth/login_check
+                login_path: /auth/login
+            logout:
+                path:    /auth/logout
+                target:  /
+```
