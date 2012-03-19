@@ -7,6 +7,7 @@ use Symfony\Component\Security\Core\SecurityContext;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use nBurylo\AuthBundle\Entity\User;
+use nBurylo\AuthBundle\Form\UserType;
 
 /**
  * @Route("/auth", name="_auth")
@@ -18,6 +19,7 @@ class AuthController extends Controller {
 	 */
 	public function registerAction(Request $request) {
 		$user = new User();
+		
 		$form = $this->createFormBuilder($user)
 			->add('username',"text", array(
 				'label' => 'Login',
@@ -35,8 +37,16 @@ class AuthController extends Controller {
 				'error_bubbling' => true,
 				//'options' => array('label'=>"BLA",'always_empty'=>'always_empty')
 			  ))
+			->add("groups",'entity',array(
+					'class' => 'nBuryloAuthBundle:Group',
+					'label'=>"Grupy",
+					'multiple' => true,
+					'expanded'	=> true,
+					))
 			->getForm();
-			
+		
+		
+		
 		if($request->getMethod() == "POST"){
 			$form->bindRequest($request);
 			if($form->isValid()){
@@ -103,9 +113,5 @@ class AuthController extends Controller {
 	public function logout() {
 		
 	}
-	
-	
 }
-
-
 ?>

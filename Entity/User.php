@@ -4,6 +4,7 @@ namespace nBurylo\AuthBundle\Entity;
 use Symfony\Component\Security\Core\User\AdvancedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -55,6 +56,10 @@ class User implements AdvancedUserInterface
      */
     private $isActive;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="Group", inversedBy="users")
+     */
+    private $groups;
     
     public function isAccountNonExpired() {
     	return true;
@@ -77,12 +82,13 @@ class User implements AdvancedUserInterface
     {
         $this->isActive = true;
         $this->salt = base_convert(sha1(uniqid(mt_rand(), true)), 16, 36);
+        $this->groups = new ArrayCollection();
     
     }
     
     public function getRoles()
     {
-        return array('ROLE_USER');
+        return $this->groups->toArray();
     }
 
     public function equals(UserInterface $user)
@@ -207,5 +213,25 @@ class User implements AdvancedUserInterface
     public function getFullname()
     {
         return $this->fullname;
+    }
+
+    /**
+     * Add groups
+     *
+     * @param nBurylo\AuthBundle\Entity\Group $groups
+     */
+    public function addGroup(\nBurylo\AuthBundle\Entity\Group $groups)
+    {
+        $this->groups[] = $groups;
+    }
+
+    /**
+     * Get groups
+     *
+     * @return Doctrine\Common\Collections\Collection 
+     */
+    public function getGroups()
+    {
+        return $this->groups;
     }
 }
