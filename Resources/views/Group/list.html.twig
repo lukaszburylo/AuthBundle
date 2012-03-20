@@ -1,0 +1,15 @@
+{% extends "nBuryloAuthBundle::layout.html.twig" %}
+
+{% block content %}
+	<h1>Lista grup</h1>
+	<table id="nburylo_authbundle_table">
+	{% for group in groups %}
+			<tr class="{{ cycle(['even','odd'], loop.index) }}">
+				<td>[{{ group.role }}]</td>
+				<td>{{ group.name }}</td>
+				<td><a href="{# {{ path("_auth_group_edit" , { 'id' : group.id}) }} #}">Edytuj</a></td>
+			</tr>
+	{% endfor %}	
+	</table>
+{% endblock %}
+

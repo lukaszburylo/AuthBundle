@@ -1,15 +1,37 @@
 {% extends "nBuryloAuthBundle::layout.html.twig" %}
 
 {% block content %}
+	<table id="nburylo_authbundle_table">
+	{% for user in users %}
+			<tr class="{{ cycle(['even','odd'], loop.index) }}">
+				<td>{{ user.username }}</td>
+				<td>{{ user.fullname }}</td>
+				<td>{{ user.email }}</td>
+				<td>
+					{% if user.isactive %}
+						<a href="{{ path("_auth_user_active" , { 'id' : user.id, 'action' : 'disable'}) }}">TAK</a>
+					{% else %}
+						<a href="{{ path("_auth_user_active" , { 'id' : user.id, 'action' : 'enable'}) }}">NIE</a>
+					{% endif %}
+				</td>
+				<td>{% for role in user.roles%} {{ role.role }} {% endfor %}</td>
+				<td><a href="{{ path("_auth_user_edit" , { 'id' : user.id}) }}">Edytuj</a></td>
+			</tr>
+	{% endfor %}	
+	</table>
+
+
+{#
 	{% for user in users %}
 	<a href="{{ path("_auth_user_edit" , { 'id' : user.id}) }}">
 		{{ user.username }}
 	</a> [{% for role in user.roles%} {{ role.role }} {% endfor %}] <br />
 	{% endfor %}
-
+#}
 	<br/><br />
 	{% for group in groups %}
 		[{{ group.role }}] - {{ group.name }}<br />
 	{% endfor %}	
 {% endblock %}
 
+	

@@ -64,7 +64,7 @@ nBuryloAuthBundle:
 ```
 
 ### Step 5: Configure security
-Edit file ``app/config/security.yml``
+Edit file ``app/config/security.yml``:
 ```
 security:
     encoders:

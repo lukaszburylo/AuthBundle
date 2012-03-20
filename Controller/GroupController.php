@@ -6,31 +6,28 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\SecurityContext;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use nBurylo\AuthBundle\Entity\User;
 use nBurylo\AuthBundle\Entity\Group;
-use nBurylo\AuthBundle\Form\UserType;
-use nBurylo\AuthBundle\Form\UserChangePasswordType;
+use nBurylo\AuthBundle\Form\GroupType;
 
 /**
- * @Route("/auth/user", name="_auth_user")
+ * @Route("/auth/group", name="_auth_group")
  */
-class UserController extends Controller {
+class GroupController extends Controller {
 
 	/**
-	 * @Route("/list", name="_auth_user_list")
+	 * @Route("/list", name="_auth_group_list")
 	 * @Template()
 	 */
 	public function listAction(Request $request) {
 		$em = $this->getDoctrine()->getEntityManager();
-		$users = $em->getRepository('nBuryloAuthBundle:User')->findAll();
 		$groups = $em->getRepository('nBuryloAuthBundle:Group')->findAll();
-		return array('users'=>$users, 'groups' => $groups);
+		return array('groups' => $groups);
 	}
-	
-	/**
+	/*
+	*
 	 * @Route("/edit/{id}", name="_auth_user_edit")
 	 * @Template()
-	 */
+	 *
 	public function editAction(Request $request,$id) {
 		$em = $this->getDoctrine()->getEntityManager();
 		$user = $em->find('nBuryloAuthBundle:User',$id);
@@ -51,10 +48,10 @@ class UserController extends Controller {
 		);
 	}
 	
-	/**
+	*
 	 * @Route("/changepass", name="_auth_user_changepass")
 	 * @Template()
-	 */
+	 *
 	public function changePasswordAction(Request $request) {
 		$user = $this->get('security.context')->getToken()->getUser();
 		$form = $this->createForm(new UserChangePasswordType());
@@ -84,21 +81,6 @@ class UserController extends Controller {
 		);
 	}
 	
-	/**
-	 * @Route("/isactice/{id}/{action}",name="_auth_user_active")
-	 */
-	public function activeAction(Request $request,$id,$action) {
-		$em = $this->getDoctrine()->getEntityManager();
-		$user = $em->find('nBuryloAuthBundle:User',$id);
-		if($action == 'enable'){
-			$user->setIsActive(true);
-		} 
-		if($action == 'disable'){
-			$user->setIsActive(false);
-		}
-		$em->persist($user);
-		$em->flush();
-		return $this->redirect($this->generateUrl('_auth_user_list'));
-	}
+	*/
 }
 ?>

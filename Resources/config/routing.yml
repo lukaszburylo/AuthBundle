@@ -6,3 +6,7 @@ nBuryloAuthBundle_user:
     resource: "@nBuryloAuthBundle/Controller/UserController.php"
     type:     annotation
     
+nBuryloAuthBundle_group:
+    resource: "@nBuryloAuthBundle/Controller/GroupController.php"
+    type:     annotation
+    
