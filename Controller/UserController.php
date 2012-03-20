@@ -9,6 +9,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use nBurylo\AuthBundle\Entity\User;
 use nBurylo\AuthBundle\Entity\Group;
 use nBurylo\AuthBundle\Form\UserType;
+use nBurylo\AuthBundle\Form\UserChangePasswordType;
 
 /**
  * @Route("/auth/user", name="_auth_user")
@@ -20,14 +21,10 @@ class UserController extends Controller {
 	 * @Template()
 	 */
 	public function listAction(Request $request) {
-		//$user = new User();
 		$em = $this->getDoctrine()->getEntityManager();
 		$users = $em->getRepository('nBuryloAuthBundle:User')->findAll();
 		$groups = $em->getRepository('nBuryloAuthBundle:Group')->findAll();
 		return array('users'=>$users, 'groups' => $groups);
-
-		//$user = $em->find('nBuryloAuthBundle:User','1');
-		//$form = $this->createForm(new UserType(), $user);	
 	}
 	
 	/**
@@ -51,6 +48,39 @@ class UserController extends Controller {
 		return array(
 			'form' => $form->createView(),
 			'id' => $id,		
+		);
+	}
+	
+	/**
+	 * @Route("/changepass", name="_auth_user_changepass")
+	 * @Template()
+	 */
+	public function changePasswordAction(Request $request) {
+		$user = $this->get('security.context')->getToken()->getUser();
+		$form = $this->createForm(new UserChangePasswordType());
+		
+		if($request->getMethod() == "POST"){
+			$form->bindRequest($request);
+			if($form->isValid()){
+				$data = $form->getData();
+				$factory = $this->get('security.encoder_factory');
+				$encoder = $factory->getEncoder($user);
+				$old_password = $encoder->encodePassword($data['password_cur'],$user->getSalt());
+				if($old_password == $user->getPassword()){
+					$new_password = $encoder->encodePassword($data['password'],$user->getSalt());
+					$user->setPassword($new_password);
+					$em = $this->getDoctrine()->getEntityManager();
+					$em->persist($user);
+					$em->flush();
+					$this->get('session')->setFlash('notice', "Hasło zostało zmienione");
+				} else {
+					$this->get('session')->setFlash('notice_warning', "obecne hasło niepoprawne");
+				}				
+			}
+		}
+		
+		return array(
+				'form' => $form->createView(),
 		);
 	}
 	

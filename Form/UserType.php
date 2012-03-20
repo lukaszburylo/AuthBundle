@@ -10,11 +10,18 @@ class UserType extends AbstractType
     public function buildForm(FormBuilder $builder, array $options)
     {
         $builder
-            ->add('username')
-            ->add('fullname')
-            ->add('email','email')
+            ->add('username','text', array(
+            		'label' => 'Login',
+            		))
+            ->add('fullname','text',array(
+            		'label' => 'Imię i nazwisko'
+            		))
+            ->add('email','email', array(
+            		'label'	=> 'E-mail'
+            		))
             ->add('isActive','checkbox',array(
             		'required' => false,
+            		'label'	=> 'Aktywne'
             ))
             ->add("groups",'entity',array(
             		'class' => 'nBuryloAuthBundle:Group',
