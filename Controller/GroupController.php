@@ -23,6 +23,46 @@ class GroupController extends Controller {
 		$groups = $em->getRepository('nBuryloAuthBundle:Group')->findAll();
 		return array('groups' => $groups);
 	}
+	
+	
+	/**
+	 * @Route("/remove/{id}", name="_auth_group_remove")
+	 * @param integer $id 
+	 */
+	public function removeAction($id) {
+		$em = $this->getDoctrine()->getEntityManager();
+		$group = $user = $em->find('nBuryloAuthBundle:Group',$id);
+		$em->remove($group);
+		
+		$em->flush();
+		return $this->redirect($this->generateUrl('_auth_group_list'));
+	}
+	
+	
+	/**
+	 * @Route("/new", name="_auth_group_new")
+	 * @Template()
+	 */
+	public function newAction(Request $request) {
+		$role = new Group();
+		$form = $this->createForm(new GroupType(),$role);
+		
+		if($request->getMethod() == "POST"){
+			$form->bindRequest($request);
+			if($form->isValid()){
+				$em = $this->getDoctrine()->getEntityManager();
+				$em->persist($role);
+				$em->flush();
+				$this->get('session')->setFlash('notice', "Dodano");
+			}
+		}
+		
+		return array(
+				'form' => $form->createView(),
+		);
+	}
+	
+	
 	/*
 	*
 	 * @Route("/edit/{id}", name="_auth_user_edit")

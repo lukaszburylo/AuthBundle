@@ -24,7 +24,10 @@ class Group implements RoleInterface
     /** @ORM\Column(name="role", type="string", length=20, unique=true) */
     private $role;
 
-    /** @ORM\ManyToMany(targetEntity="User", mappedBy="groups") */
+    /** @ORM\ManyToMany(targetEntity="User", mappedBy="groups") 
+     * 
+     */
+    
     private $users;
 
     public function __construct()

@@ -1,0 +1,10 @@
+{% extends "nBuryloAuthBundle::layout.html.twig" %}
+{% block content %}
+<form action="{{ path('_auth_group_new') }}" method="post" id="nburylo_register_form">
+	{{ form_errors(form) }}
+	{{ form_row ( form.name ) }}
+	{{ form_row ( form.role ) }}
+	{{ form_rest(form) }}  
+<input type="submit" />
+</form>
+{% endblock %}
