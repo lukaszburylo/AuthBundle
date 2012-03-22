@@ -7,9 +7,9 @@
 			<tr class="{{ cycle(['even','odd'], loop.index) }}">
 				<td>[{{ group.role }}]</td>
 				<td>{{ group.name }}</td>
-				<td><a href="{# {{ path("_auth_group_edit" , { 'id' : group.id}) }} #}">Edytuj</a>
+				<td><a href="{# {{ path("_auth_group_edit" , { 'id' : group.id}) }} #}">{{ 'Edit'|trans }}</a>
 				|
-				<a href="{{ path("_auth_group_remove" , { 'id' : group.id}) }}">Usuń</a> </td>
+				<a href="{{ path("_auth_group_remove" , { 'id' : group.id}) }}">{{ 'Delete'|trans }}</a> </td>
 			</tr>
 	{% endfor %}	
 	</table>

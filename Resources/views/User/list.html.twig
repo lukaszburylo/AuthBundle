@@ -2,6 +2,16 @@
 
 {% block content %}
 	<table id="nburylo_authbundle_table">
+	<thead>
+		<tr>
+			<th>{{ 'Username' | trans }}</th>
+			<th>{{ 'Fullname' | trans }}</th>
+			<th>{{ 'Email' | trans }}</th>
+			<th>{{ 'Active' | trans }}</th>
+			<th>{{ 'Roles' | trans }}</th>
+			<th>{{ 'Options' | trans }}</th>
+		</tr>
+	</thead>
 	{% for user in users %}
 			<tr class="{{ cycle(['even','odd'], loop.index) }}">
 				<td>{{ user.username }}</td>
@@ -15,7 +25,7 @@
 					{% endif %}
 				</td>
 				<td>{% for role in user.roles%} {{ role.role }} {% endfor %}</td>
-				<td><a href="{{ path("_auth_user_edit" , { 'id' : user.id}) }}">Edytuj</a></td>
+				<td><a href="{{ path("_auth_user_edit" , { 'id' : user.id}) }}">{{ 'Edit'|trans }}</a></td>
 			</tr>
 	{% endfor %}	
 	</table>
